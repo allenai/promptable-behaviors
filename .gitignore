@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__
+*.py[cod]
+**/__pycache__/*
+allenact/embodiedai/__pycache__/*
+*.pyc
+storage/*
+.vscode/*
+wandb
+.history
+*.pkl
+*.mp4
+*.npy
+*.pt
+*.png
+*.zip
+data/*
+output/*
+wandb/*
+output/.allenact_last_start_time_string

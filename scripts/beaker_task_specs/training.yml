@@ -1,0 +1,31 @@
+version: v2
+description: Running a High Priority batch job on Beaker for procthor-training
+tasks:
+- name: procthor-training
+  image:
+    beaker: khzeng/procthor-training-base-20230801
+  command: [ '/bin/bash', '-c' ]
+  arguments: ['bash -l procthor-training/scripts/beaker_batch_entrypoint.sh']
+  envVars:
+  - name: WANDB_API_KEY
+    secret: WANDB_API_KEY
+  - name: GITHUB_TOKEN
+    secret: GITHUB_TOKEN
+  - name: PYTHONPATH
+    value: /root/procthor-training
+  datasets:
+    - mountPath: /net/nfs/prior
+      source:
+        hostPath: /net/nfs/prior
+    - mountPath: /root/procthor-training
+      source:
+        beaker: khzeng/khzeng_procthor_training_code_2023-08-03_15-13-54
+  result:
+    path: '/output'
+  resources:
+    gpuCount: 1
+    sharedMemory: 250 GiB
+  context:
+    priority: high
+  constraints:
+    cluster: [ ai2/general-cirrascale ]

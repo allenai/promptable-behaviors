@@ -1,0 +1,216 @@
+defaults:
+  - agent: ???
+  - target_object_types: ???
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+  - _self_
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .
+
+procthor:
+  num_train_houses: null
+  num_val_houses: null
+  num_test_houses: null
+
+  # Probability of randomizing the object materials for a given episode
+  # during training.
+  p_randomize_materials: 0.8
+
+ithor:
+  # Probability of shuffling the objects with InitialRandomSpawn for a given
+  # episode during iTHOR training.
+  p_shuffle_objects: 0
+
+model:
+  add_prev_actions_embedding: false
+
+  image_size: 224
+
+  # These numbers come from CLIP.
+  rgb_means:
+    - 0.48145466
+    - 0.4578275
+    - 0.40821073
+  rgb_stds:
+    - 0.26862954
+    - 0.26130258
+    - 0.27577711
+
+  clip:
+    # Must be in "RN50" or "RN50x16"
+    model_type: "RN50"
+
+losses:
+  KL_loss:
+    alpha: 0.
+
+
+
+logging:
+  frequency: 1e3
+  plot_codebook: false
+
+training:
+  ppo_steps: 10_000_000_000
+  num_stages: 3
+  base_num_steps: 32
+  lr: 0.0003
+  num_mini_batch: 1
+  update_repeats: 4
+  num_steps: 128
+  save_interval: 5_000_000
+  log_interval: 10_000
+  advance_scene_rollout_period: 20
+
+  gamma: 0.99
+  use_gae: true
+  gae_lambda: 0.95
+  max_grad_norm: 0.5
+
+  max_val_tasks: 200 # 200
+  max_test_tasks: 10
+
+  object_selection:
+    # The number of visibility points to sample when checking if an object is visible.
+    # Note: total number of visibility raycasts is then MAX_VIS_POINTS * MAX_AGENT_POSITIONS.
+    max_vis_points: 6
+
+    # The number of agent positions to sample when checking if an object is visible.
+    # Note: total number of visibility raycasts is then MAX_VIS_POINTS * MAX_AGENT_POSITIONS.
+    max_agent_positions: 6
+
+    # Epsilon Greedy probability of selecting the greedy (least common) target object.
+    p_greedy_target_object: 0.8
+
+evaluation:
+  test_on_validation: true
+  max_val_tasks: null
+  max_test_tasks: null
+  tasks: ["procthor-10k"] #["architecthor", "procthor-10k", "ithor", "robothor"]
+  minival: true
+  save_video: false
+  save_trajectory: false
+  save_obs_embeds: false
+
+mdp:
+  max_steps: 500
+  actions:
+    - MoveAhead
+    - RotateLeft
+    - RotateRight
+    - End
+    - LookUp
+    - LookDown
+  reward:
+    train:
+      step_penalty: -0.01
+      goal_success_reward: 10.0
+      failed_stop_reward: 0.0
+      shaping_weight: 1.0
+      reached_horizon_reward: 0.0
+      positive_only_reward: false
+      # morl
+      exploration_reward: 0.1 #default: 0.1
+      object_found: 4.0 #1.0
+      collision_penalty: 0.1
+      safety_reward_threshold: 55 #40
+      safety_reward_scale: 0.005 #0.001
+      safety_distance: 1.5 # 1.0
+      far_from_initial_scale: 10.0
+      reward_grid_size: 0.25
+    eval:
+      step_penalty: -0.01
+      goal_success_reward: 10.0
+      failed_stop_reward: 0.0
+      shaping_weight: 1.0 #0.0
+      reached_horizon_reward: 0.0
+      positive_only_reward: false
+      # morl
+      exploration_reward: 0.1 #default: 0.1
+      object_found: 4.0 #1.0
+      collision_penalty: 0.1
+      safety_reward_threshold: 55 #40
+      safety_reward_scale: 0.005 #0.001
+      safety_distance: 1.5 # 1.0
+      far_from_initial_scale: 10.0
+      reward_grid_size: 0.25
+
+machine:
+  num_train_processes: 96
+  num_val_processes: 2
+  num_test_processes: 60
+
+  # leave empty to use all
+  num_train_gpus: null
+  num_val_gpus: 1
+  num_test_gpus: null
+
+# todo: support multiple agents!
+agent:
+  camera_width: 400
+  camera_height: 300
+  rotate_step_degrees: 30
+  visibility_distance: 1
+  step_size: 0.25
+  distance_type: l2 #geo
+
+wandb:
+  use: false
+  entity: your-wandb-username
+  project: procthor-objectnav
+  name: null
+  dir: ./
+
+transformers:
+  # Turn on to speed initialization up, but requires
+  # having the datasets in ~/.cache/huggingface/
+  offline: "no"
+
+pretrained_model:
+  project: "procthor-models"
+  name: null
+  only_load_model_state_dict: true
+
+# OnPolicyRunner args
+callbacks: "" #training/callbacks/wandb_logging.py
+checkpoint: null
+disable_tensorboard: false
+eval: false
+experiment: ???
+experiment_base: .
+extra_tag: ""
+output_dir: output
+seed: 42
+config_kwargs: null
+valid_on_initial_weights: true
+enable_crash_recovery: true
+restart_pipeline: false 
+
+ai2thor:
+  # Must be in "CloudRendering" or "Linux64"
+  platform: CloudRendering
+
+distributed:
+  # The machine_id of this node
+  machine_id: 0
+
+  # IP and port of the head distrubted process
+  ip_and_port: 127.0.0.1:0
+
+  # Number of distributed nodes
+  nodes: 1
+
+# morl args
+morl:
+  objectives_combination: exp6
+  objectives: ["step_penalty", "path_efficiency", "goal", "exploration", "safety", "object_exploration"]
+  valid_objectives: ["step_penalty", "path_efficiency", "exploration", "safety", "object_exploration"]
+  num_objectives: 5
+  reward_weights: null
+  adaptive_reward: false
+  normalize_weights: true
+  reward_embed_type: codebook
+
