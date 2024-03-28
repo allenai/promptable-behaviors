@@ -63,7 +63,6 @@ urllib3==1.26.7
 wandb==0.12.13
 Werkzeug==2.0.2
 shapely==1.8.2
-prior
 einops
 seaborn
 pymoo
