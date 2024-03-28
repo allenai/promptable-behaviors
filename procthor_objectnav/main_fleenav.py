@@ -13,7 +13,7 @@ import ast
 from omegaconf import DictConfig
 
 from allenact.base_abstractions.experiment_config import ExperimentConfig
-from allenact.algorithms.onpolicy_sync.runner import OnPolicyRunner, CONFIG_KWARGS_STR
+from procthor_objectnav.algorithms.onpolicy_runner import OnPolicyRunner, CONFIG_KWARGS_STR
 from allenact.main import load_config, _config_source, find_sub_modules
 from allenact.utils.system import get_logger
 

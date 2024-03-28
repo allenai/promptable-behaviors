@@ -18,13 +18,6 @@ from procthor_objectnav.tasks.object_nav import (
 
 from procthor_objectnav.tasks.flee_nav import ProcTHORFleeNavTask, ProcTHORFleeNavTaskSampler, FullProcTHORFleeNavTestTaskSampler
 
-# from procthor_objectnav.tasks.mapping import (
-#     ProcTHORObjectNavMappingTask,
-#     ProcTHORObjectNavTaskMappingSampler,
-#     ProcTHORFleeNavMappingTask,
-#     ProcTHORFleeNavTaskMappingSampler,
-# )
-
 try:
     from typing import Literal, final
 except ImportError:

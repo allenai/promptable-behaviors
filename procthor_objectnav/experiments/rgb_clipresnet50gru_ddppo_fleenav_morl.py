@@ -14,9 +14,7 @@ import torch.nn as nn
 from allenact.base_abstractions.preprocessor import Preprocessor
 from allenact.embodiedai.sensors.vision_sensors import DepthSensor, RGBSensor
 
-from allenact_plugins.navigation_plugin.objectnav.models import ResnetTensorNavActorCritic
-# from procthor_objectnav.codebook_models.objectnav_models import ResnetTensorNavActorCritic
-
+from procthor_objectnav.models.objectnav_models import ResnetTensorNavActorCritic
 
 from ..sensors.vision import RGBSensorThorController
 from ..sensors.sensors import *

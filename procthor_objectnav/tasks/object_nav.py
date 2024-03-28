@@ -26,9 +26,9 @@ from allenact.utils.cache_utils import DynamicDistanceCache
 from allenact.utils.experiment_utils import set_deterministic_cudnn, set_seed
 from allenact.utils.system import get_logger
 from allenact_plugins.ithor_plugin.ithor_environment import IThorEnvironment
-from allenact.utils.map_utils import position_to_grid, reachable_positions_to_matrix
+from procthor_objectnav.utils.map_utils import position_to_grid, reachable_positions_to_matrix
 from allenact.utils.experiment_utils import set_seed
-from allenact.utils.weight_utils import random_weights, equally_spaced_weights
+from procthor_objectnav.utils.weight_utils import random_weights, equally_spaced_weights
 
 from shapely.geometry import Point, Polygon
 from shapely.vectorized import contains

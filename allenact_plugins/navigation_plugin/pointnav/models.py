@@ -13,7 +13,7 @@ from gym.spaces import Dict as SpaceDict
 from allenact.algorithms.onpolicy_sync.policy import ObservationType
 from allenact.embodiedai.models import resnet as resnet
 from allenact.embodiedai.models.basic_models import SimpleCNN
-from allenact.embodiedai.models.visual_nav_models import (
+from procthor_objectnav.models.visual_nav_models import (
     VisualNavActorCritic,
     FusionType,
 )

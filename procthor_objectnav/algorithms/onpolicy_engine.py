@@ -60,7 +60,7 @@ from allenact.base_abstractions.misc import (
     RLStepResult,
 )
 from allenact.utils import spaces_utils as su
-from allenact.utils.experiment_utils import (
+from procthor_objectnav.utils.experiment_utils import (
     LoggingPackage,
     PipelineStage,
     ScalarMeanTracker,
