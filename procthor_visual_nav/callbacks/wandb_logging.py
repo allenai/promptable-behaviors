@@ -47,7 +47,6 @@ class WandbLogging(Callback):
 
         wandb.init(
             project=kwargs["config"].cfg.wandb.project,
-            entity=kwargs["config"].cfg.wandb.entity,
             name=name if kwargs["config"].cfg.wandb.name is None else kwargs["config"].cfg.wandb.name,
             config=self.cfg, #kwargs,
             dir=kwargs["config"].cfg.wandb.dir,

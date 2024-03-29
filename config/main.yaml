@@ -159,7 +159,6 @@ agent:
 
 wandb:
   use: false
-  entity: your-wandb-username
   project: procthor-objectnav
   name: null
   dir: ./

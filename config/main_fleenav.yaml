@@ -151,7 +151,6 @@ agent:
 
 wandb:
   use: false
-  entity: your-wandb-username
   project: procthor-fleenav
   name: null
   dir: ./
